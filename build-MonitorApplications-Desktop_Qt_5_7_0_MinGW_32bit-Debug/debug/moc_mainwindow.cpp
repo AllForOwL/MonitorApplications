@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[16];
-    char stringdata0[371];
+    QByteArrayData data[18];
+    char stringdata0[385];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,27 +32,29 @@ static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 36), // "signalChangeQuentitySecondFor..."
 QT_MOC_LITERAL(2, 48, 0), // ""
-QT_MOC_LITERAL(3, 49, 24), // "signalOutputPeriodSecond"
-QT_MOC_LITERAL(4, 74, 34), // "slotChangeQuentitySecondForPr..."
-QT_MOC_LITERAL(5, 109, 24), // "slotAddPeriodMinuteToAll"
-QT_MOC_LITERAL(6, 134, 27), // "slotAddPeriodSecondToMinute"
-QT_MOC_LITERAL(7, 162, 22), // "slotOutputPeriodSecond"
-QT_MOC_LITERAL(8, 185, 22), // "on_radioButton_clicked"
-QT_MOC_LITERAL(9, 208, 24), // "on_radioButton_2_clicked"
-QT_MOC_LITERAL(10, 233, 24), // "on_radioButton_3_clicked"
-QT_MOC_LITERAL(11, 258, 24), // "on_radioButton_4_clicked"
-QT_MOC_LITERAL(12, 283, 21), // "on_ui_btnHour_clicked"
-QT_MOC_LITERAL(13, 305, 20), // "on_ui_btnDay_clicked"
-QT_MOC_LITERAL(14, 326, 22), // "on_ui_btnMonth_clicked"
-QT_MOC_LITERAL(15, 349, 21) // "on_ui_btnYear_clicked"
+QT_MOC_LITERAL(3, 49, 18), // "signalOutputPeriod"
+QT_MOC_LITERAL(4, 68, 12), // "PeriodOutput"
+QT_MOC_LITERAL(5, 81, 12), // "i_typePeriod"
+QT_MOC_LITERAL(6, 94, 34), // "slotChangeQuentitySecondForPr..."
+QT_MOC_LITERAL(7, 129, 24), // "slotAddPeriodMinuteToAll"
+QT_MOC_LITERAL(8, 154, 27), // "slotAddPeriodSecondToMinute"
+QT_MOC_LITERAL(9, 182, 16), // "slotOutputPeriod"
+QT_MOC_LITERAL(10, 199, 22), // "on_radioButton_clicked"
+QT_MOC_LITERAL(11, 222, 24), // "on_radioButton_2_clicked"
+QT_MOC_LITERAL(12, 247, 24), // "on_radioButton_3_clicked"
+QT_MOC_LITERAL(13, 272, 24), // "on_radioButton_4_clicked"
+QT_MOC_LITERAL(14, 297, 21), // "on_ui_btnHour_clicked"
+QT_MOC_LITERAL(15, 319, 20), // "on_ui_btnDay_clicked"
+QT_MOC_LITERAL(16, 340, 22), // "on_ui_btnMonth_clicked"
+QT_MOC_LITERAL(17, 363, 21) // "on_ui_btnYear_clicked"
 
     },
     "MainWindow\0signalChangeQuentitySecondForProcess\0"
-    "\0signalOutputPeriodSecond\0"
-    "slotChangeQuentitySecondForProcess\0"
+    "\0signalOutputPeriod\0PeriodOutput\0"
+    "i_typePeriod\0slotChangeQuentitySecondForProcess\0"
     "slotAddPeriodMinuteToAll\0"
     "slotAddPeriodSecondToMinute\0"
-    "slotOutputPeriodSecond\0on_radioButton_clicked\0"
+    "slotOutputPeriod\0on_radioButton_clicked\0"
     "on_radioButton_2_clicked\0"
     "on_radioButton_3_clicked\0"
     "on_radioButton_4_clicked\0on_ui_btnHour_clicked\0"
@@ -76,31 +78,31 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // signals: name, argc, parameters, tag, flags
        1,    0,   84,    2, 0x06 /* Public */,
-       3,    0,   85,    2, 0x06 /* Public */,
+       3,    1,   85,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   86,    2, 0x08 /* Private */,
-       5,    0,   87,    2, 0x08 /* Private */,
        6,    0,   88,    2, 0x08 /* Private */,
        7,    0,   89,    2, 0x08 /* Private */,
        8,    0,   90,    2, 0x08 /* Private */,
-       9,    0,   91,    2, 0x08 /* Private */,
-      10,    0,   92,    2, 0x08 /* Private */,
-      11,    0,   93,    2, 0x08 /* Private */,
-      12,    0,   94,    2, 0x08 /* Private */,
-      13,    0,   95,    2, 0x08 /* Private */,
-      14,    0,   96,    2, 0x08 /* Private */,
-      15,    0,   97,    2, 0x08 /* Private */,
+       9,    1,   91,    2, 0x08 /* Private */,
+      10,    0,   94,    2, 0x08 /* Private */,
+      11,    0,   95,    2, 0x08 /* Private */,
+      12,    0,   96,    2, 0x08 /* Private */,
+      13,    0,   97,    2, 0x08 /* Private */,
+      14,    0,   98,    2, 0x08 /* Private */,
+      15,    0,   99,    2, 0x08 /* Private */,
+      16,    0,  100,    2, 0x08 /* Private */,
+      17,    0,  101,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 4,    5,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 4,    5,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -120,11 +122,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->signalChangeQuentitySecondForProcess(); break;
-        case 1: _t->signalOutputPeriodSecond(); break;
+        case 1: _t->signalOutputPeriod((*reinterpret_cast< PeriodOutput(*)>(_a[1]))); break;
         case 2: _t->slotChangeQuentitySecondForProcess(); break;
         case 3: _t->slotAddPeriodMinuteToAll(); break;
         case 4: _t->slotAddPeriodSecondToMinute(); break;
-        case 5: _t->slotOutputPeriodSecond(); break;
+        case 5: _t->slotOutputPeriod((*reinterpret_cast< PeriodOutput(*)>(_a[1]))); break;
         case 10: _t->on_ui_btnHour_clicked(); break;
         case 11: _t->on_ui_btnDay_clicked(); break;
         case 12: _t->on_ui_btnMonth_clicked(); break;
@@ -142,14 +144,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             }
         }
         {
-            typedef void (MainWindow::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MainWindow::signalOutputPeriodSecond)) {
+            typedef void (MainWindow::*_t)(PeriodOutput );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MainWindow::signalOutputPeriod)) {
                 *result = 1;
                 return;
             }
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -195,8 +196,9 @@ void MainWindow::signalChangeQuentitySecondForProcess()
 }
 
 // SIGNAL 1
-void MainWindow::signalOutputPeriodSecond()
+void MainWindow::signalOutputPeriod(PeriodOutput _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 1, Q_NULLPTR);
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_END_MOC_NAMESPACE

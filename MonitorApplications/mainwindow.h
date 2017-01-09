@@ -26,7 +26,6 @@ public:
 
     void GetProcessList(HANDLE CONST hStdOut);
 
-
     struct Program
     {
         int     m_quentitySecond;
@@ -44,10 +43,23 @@ public:
 
         }
     };
+
+    void CalculateStatistic(int i_quentityCalculateElement);
+
+    enum PeriodOutput
+    {
+        SECOND,
+        HOUR,
+        DAY,
+        MONTH,
+        YEAR
+    };
+
+
 signals:
     void signalChangeQuentitySecondForProcess();
 
-    void signalOutputPeriodSecond();
+    void signalOutputPeriod(PeriodOutput i_typePeriod);
 
 private slots:
     void slotChangeQuentitySecondForProcess();
@@ -56,7 +68,7 @@ private slots:
 
     void slotAddPeriodSecondToMinute();
 
-    void slotOutputPeriodSecond();
+    void slotOutputPeriod(PeriodOutput i_typePeriod);
 
     void on_radioButton_clicked();
 
@@ -74,10 +86,11 @@ private slots:
 
     void on_ui_btnYear_clicked();
 
-private: // add vector minutes
+private:
     QVector<QVector<Program>> m_periodAll;
     QVector<Program> m_periodMinute;
-    QVector<QString>  m_periodSecond;
+    QVector<Program> m_calculateStatistic;
+    QVector<QString> m_periodSecond;
 
     QTimer* m_timeAddPeriodMinuteToAll;
     QTimer* m_timeAddPeriodSecondToMinute;
