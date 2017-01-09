@@ -46,6 +46,10 @@ public:
 
     void CalculateStatistic(int i_quentityCalculateElement);
 
+    void QuickSort(int i_left, int i_right);
+    int Partition(int i_left, int i_right);
+    void Swap(Program& i_left, Program& i_right);
+
     enum PeriodOutput
     {
         SECOND,
