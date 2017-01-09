@@ -37,22 +37,29 @@ void MainWindow::CalculateStatistic(int i_quentityCalculateElement)
 {
     // verify size allperiod
 
-    for (int i = m_periodAll.size(); i < m_periodAll.size() - 2; --i)
+    for (int i = m_periodAll.size() - 1; i > m_periodAll.size() - 2; i--)
     {
         for (int j = 0; j < m_periodAll[i].size(); j++)
         {
-            for (int b = 0; b < m_calculateStatistic.size(); b++)
+            if (i == m_periodAll.size() - 1)
             {
-                if (m_calculateStatistic[b].m_name == m_periodAll[i][j].m_name)
+                 m_calculateStatistic.push_back(m_periodAll[i][j]);
+            }
+            else
+            {
+                for (int b = 0; b < m_calculateStatistic.size(); b++)
                 {
-                    m_calculateStatistic[b].m_quentitySecond += m_periodAll[i][j].m_quentitySecond;
+                    if (m_calculateStatistic[b].m_name == m_periodAll[i][j].m_name)
+                    {
+                        m_calculateStatistic[b].m_quentitySecond += m_periodAll[i][j].m_quentitySecond;
 
-                    break;
-                    break;
-                }
-                else if (b == m_calculateStatistic.size() - 1)
-                {
-                    m_calculateStatistic.push_back(m_periodAll[i][j]);
+                        break;
+                        break;
+                    }
+                    else if (b == m_calculateStatistic.size() - 1)
+                    {
+                        m_calculateStatistic.push_back(m_periodAll[i][j]);
+                    }
                 }
             }
         }
@@ -61,15 +68,27 @@ void MainWindow::CalculateStatistic(int i_quentityCalculateElement)
     QuickSort(0, m_calculateStatistic.size() - 1);
 }
 
-void MainWindow::QuickSort(int i_left, int i_right)
+void MainWindow::QuickSort(int first, int last)
 {
-    if (i_left < i_right)
-    {
-       int q = Partition(i_left, i_right);
-       QuickSort(i_left, q);
-       QuickSort(q + 1, i_right);
-    }
+    int i = first, j = last, x = m_calculateStatistic[(first + last) / 2].m_quentitySecond;
+
+    do {
+        while (m_calculateStatistic[i].m_quentitySecond < x) i++;
+        while (m_calculateStatistic[j].m_quentitySecond > x) j--;
+
+        if(i <= j) {
+            if (m_calculateStatistic[i].m_quentitySecond > m_calculateStatistic[j].m_quentitySecond) std::swap(m_calculateStatistic[i], m_calculateStatistic[j]);
+            i++;
+            j--;
+        }
+    } while (i <= j);
+
+    if (i < last)
+        QuickSort(i, last);
+    if (first < j)
+        QuickSort(first, j);
 }
+
 
 int MainWindow::Partition(int i_left, int i_right)
 {
@@ -121,7 +140,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         {
             ui->ui_tableStatistic->setRowCount(10);
             CalculateStatistic(QUENTITY_CALCULATE_HOUR);
-            for (int i = 0; i < m_calculateStatistic.size(); i++)
+            for (int i = m_calculateStatistic.end() - 1; i > m_calculateStatistic.end() - 11; i--)
             {
                 ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
                 ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
@@ -133,7 +152,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         {
             ui->ui_tableStatistic->setRowCount(10);
             CalculateStatistic(QUENTITY_CALCULATE_DAY);
-            for (int i = 0; i < m_calculateStatistic.size(); i++)
+            for (int i = 0; i < 10; i++)
             {
                 ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
                 ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
@@ -145,7 +164,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         {
             ui->ui_tableStatistic->setRowCount(10);
             CalculateStatistic(QUENTITY_CALCULATE_MONTH);
-            for (int i = 0; i < m_calculateStatistic.size(); i++)
+            for (int i = 0; i < 10; i++)
             {
                 ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
                 ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
@@ -157,7 +176,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         {
             ui->ui_tableStatistic->setRowCount(10);
             CalculateStatistic(QUENTITY_CALCULATE_YEAR);
-            for (int i = 0; i < m_calculateStatistic.size(); i++)
+            for (int i = 0; i < 10; i++)
             {
                 ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
                 ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
