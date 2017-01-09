@@ -6,13 +6,15 @@
 #include <windows.h>
 #include <tlhelp32.h>
 
+#include <QVector>
+#include <QTimer>
+
 namespace Ui
 {
     class MainWindow;
 }
 
 using std::string;
-using std::vector;
 
 class MainWindow : public QMainWindow
 {
@@ -24,20 +26,35 @@ public:
 
     void GetProcessList(HANDLE CONST hStdOut);
 
-private:// add vector minutes
+
     struct Program
     {
-        string  m_name;
         int     m_quentitySecond;
+        string  m_name;
+
+        Program(int i_quentitySecond, string i_name):
+            m_quentitySecond(i_quentitySecond), m_name(i_name)
+        {
+
+        }
     };
+public slots:
+    void slotChangeQuentitySecondForProcess();
 
-    vector<Program> m_hour;
-    vector<Program> m_month;
-    vector<Program> m_year;
+    void slotAddPeriodMinuteToAll();
 
-    vector<string>  m_allProcessRunning;
+    void slotAddPeriodSecondToMinute();
 
-    QTimer* m_timeReset
+signals:
+    void signalChangeQuentitySecondForProcess();
+
+private: // add vector minutes
+    QVector<QVector<Program>> m_periodAll;
+    QVector<Program> m_periodMinute;
+    QVector<string>  m_periodSecond;
+
+    QTimer* m_timeAddPeriodMinuteToAll;
+    QTimer* m_timeAddPeriodSecondToMinute;
 
     Ui::MainWindow *ui;
 };
