@@ -30,28 +30,54 @@ public:
     struct Program
     {
         int     m_quentitySecond;
-        string  m_name;
+        QString  m_name;
 
-        Program(int i_quentitySecond, string i_name):
+        Program() : m_quentitySecond(0),
+                    m_name("")
+        {
+
+        }
+
+        Program(int i_quentitySecond, QString i_name):
             m_quentitySecond(i_quentitySecond), m_name(i_name)
         {
 
         }
     };
-public slots:
+signals:
+    void signalChangeQuentitySecondForProcess();
+
+    void signalOutputPeriodSecond();
+
+private slots:
     void slotChangeQuentitySecondForProcess();
 
     void slotAddPeriodMinuteToAll();
 
     void slotAddPeriodSecondToMinute();
 
-signals:
-    void signalChangeQuentitySecondForProcess();
+    void slotOutputPeriodSecond();
+
+    void on_radioButton_clicked();
+
+    void on_radioButton_2_clicked();
+
+    void on_radioButton_3_clicked();
+
+    void on_radioButton_4_clicked();
+
+    void on_ui_btnHour_clicked();
+
+    void on_ui_btnDay_clicked();
+
+    void on_ui_btnMonth_clicked();
+
+    void on_ui_btnYear_clicked();
 
 private: // add vector minutes
     QVector<QVector<Program>> m_periodAll;
     QVector<Program> m_periodMinute;
-    QVector<string>  m_periodSecond;
+    QVector<QString>  m_periodSecond;
 
     QTimer* m_timeAddPeriodMinuteToAll;
     QTimer* m_timeAddPeriodSecondToMinute;

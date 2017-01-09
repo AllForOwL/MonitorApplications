@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <string>
+#include <QStandardItem>
+#include <QString>
 
 const int ONE_MINUTE = 60000;
 const int ONE_SECOND = 1000;
-
-using std::find;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,6 +24,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_timeAddPeriodMinuteToAll, SIGNAL(timeout()), this, SLOT(slotAddPeriodMinuteToAll()));
 
     connect(this, SIGNAL(signalChangeQuentitySecondForProcess()), this, SLOT(slotChangeQuentitySecondForProcess()));
+
+    connect(this, SIGNAL(signalOutputPeriodSecond()), this, SLOT(slotOutputPeriodSecond()));
+}
+
+void MainWindow::slotOutputPeriodSecond()
+{
+    // output QVector second on QTable
+    ui->ui_tableStatistic->setRowCount(m_periodSecond.size());
+    for (int i = 0; i < m_periodSecond.size(); i++)
+    {
+        ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_periodSecond[i]));
+        ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(1));
+    }
 }
 
 void MainWindow::slotAddPeriodMinuteToAll()
@@ -39,7 +53,7 @@ void MainWindow::slotChangeQuentitySecondForProcess()
         for (int i = 0; i < m_periodSecond.size(); i++)
         {
             m_periodMinute.push_back(Program(1, m_periodSecond[i]));
-            m_periodSecond[i] = "";
+            m_periodSecond[i] = " ";
         }
    }
    else // increase quentity second for each program which is QVector minute
@@ -51,7 +65,7 @@ void MainWindow::slotChangeQuentitySecondForProcess()
                 if (m_periodMinute[j].m_name == m_periodSecond[i])
                 {
                     ++m_periodMinute[j].m_quentitySecond;
-                    m_periodSecond[i] = "";
+                    m_periodSecond[i] = " ";
 
                     break;
                     break;
@@ -63,10 +77,10 @@ void MainWindow::slotChangeQuentitySecondForProcess()
    // add new program and set quentity second == 1
    for (int i = 0; i < m_periodSecond.size(); i++)
    {
-       if (m_periodSecond[i] != "")
+       if (m_periodSecond[i] != " ")
        {
            m_periodMinute.push_back(Program(1, m_periodSecond[i]));
-           m_periodSecond[i] = "";
+           m_periodSecond[i] = " ";
        }
    }
 }
@@ -74,8 +88,7 @@ void MainWindow::slotChangeQuentitySecondForProcess()
 void MainWindow::slotAddPeriodSecondToMinute()
 {
     HANDLE CONST hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    PrintProcessList(hStdOut);
-    GetProcessList(hStdout);
+    GetProcessList(hStdOut);
 }
 
 void MainWindow::GetProcessList(HANDLE CONST hStdOut)
@@ -94,13 +107,16 @@ void MainWindow::GetProcessList(HANDLE CONST hStdOut)
     m_periodSecond.clear();
     do
     {
-    if (!std::find(m_periodSecond.begin(), m_periodSecond.end(), peProcessEntry.szExeFile))
-    {
-       m_periodSecond.push_back(peProcessEntry.szExeFile);
-    }
+        QString _nameProcess  = QString::fromWCharArray(peProcessEntry.szExeFile);
+        if (std::find(m_periodSecond.begin(), m_periodSecond.end(), _nameProcess) == std::end(m_periodSecond))
+        {
+           m_periodSecond.push_back(_nameProcess);
+        }
     }
     while(Process32Next(hSnapshot, &peProcessEntry));
     CloseHandle(hSnapshot);
+
+    emit signalOutputPeriodSecond();
 
     emit signalChangeQuentitySecondForProcess();    // call slot change quentity second
 }
@@ -108,4 +124,24 @@ void MainWindow::GetProcessList(HANDLE CONST hStdOut)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_ui_btnHour_clicked()
+{
+
+}
+
+void MainWindow::on_ui_btnDay_clicked()
+{
+
+}
+
+void MainWindow::on_ui_btnMonth_clicked()
+{
+
+}
+
+void MainWindow::on_ui_btnYear_clicked()
+{
+
 }
