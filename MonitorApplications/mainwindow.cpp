@@ -3,6 +3,8 @@
 #include <string>
 #include <QStandardItem>
 #include <QString>
+#include <QMessageBox>
+#include <QStringList>
 
 const int QUENTITY_CALCULATE_HOUR   = 60;
 const int QUENTITY_CALCULATE_DAY    = 1440 ;
@@ -17,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->ui_btnContinue->setVisible(false);
 
     m_timeAddPeriodMinuteToAll = new QTimer();
     m_timeAddPeriodMinuteToAll->start(ONE_MINUTE);
@@ -33,11 +37,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(signalOutputPeriod(PeriodOutput)), this, SLOT(slotOutputPeriod(PeriodOutput)));
 }
 
-void MainWindow::CalculateStatistic(int i_quentityCalculateElement)
+bool MainWindow::CalculateStatistic(int i_quentityCalculateElement)
 {
-    // verify size allperiod
+    if (m_periodAll.size() <= i_quentityCalculateElement)
+    {
+        QMessageBox::warning(this, "Попередження!!!", "Спробуйте через декілька хвилин");
+        return false;
+    }
 
-    for (int i = m_periodAll.size() - 1; i > m_periodAll.size() - 2; i--)
+    for (int i = m_periodAll.size() - 1; i > m_periodAll.size() - i_quentityCalculateElement; i--)
     {
         for (int j = 0; j < m_periodAll[i].size(); j++)
         {
@@ -65,59 +73,38 @@ void MainWindow::CalculateStatistic(int i_quentityCalculateElement)
         }
     }
 
-    QuickSort(0, m_calculateStatistic.size() - 1);
+    QuickSort(0, m_calculateStatistic.size() - 2);
+
+    return true;
 }
 
 void MainWindow::QuickSort(int first, int last)
 {
-    int i = first, j = last, x = m_calculateStatistic[(first + last) / 2].m_quentitySecond;
+    int i = first,
+        j = last,
+        x = m_calculateStatistic[(first + last) / 2].m_quentitySecond;
 
-    do {
+    do
+    {
         while (m_calculateStatistic[i].m_quentitySecond < x) i++;
         while (m_calculateStatistic[j].m_quentitySecond > x) j--;
 
-        if(i <= j) {
-            if (m_calculateStatistic[i].m_quentitySecond > m_calculateStatistic[j].m_quentitySecond) std::swap(m_calculateStatistic[i], m_calculateStatistic[j]);
+        if(i <= j)
+        {
+            if (m_calculateStatistic[i].m_quentitySecond > m_calculateStatistic[j].m_quentitySecond)
+            {
+                std::swap(m_calculateStatistic[i], m_calculateStatistic[j]);
+            }
             i++;
             j--;
         }
-    } while (i <= j);
+    }
+    while (i <= j);
 
     if (i < last)
         QuickSort(i, last);
     if (first < j)
         QuickSort(first, j);
-}
-
-
-int MainWindow::Partition(int i_left, int i_right)
-{
-    int v = m_calculateStatistic[(i_left + i_right) / 2].m_quentitySecond;
-    int i = i_left;
-    int j = i_right;
-    while (i <= j)
-    {
-       while (m_calculateStatistic[i].m_quentitySecond <= v)
-       {
-          i++;
-       }
-       while (m_calculateStatistic[j].m_quentitySecond > v)
-       {
-           j--;
-       }
-       if (i <= j)
-       {
-          Swap(m_calculateStatistic[i++], m_calculateStatistic[j--]);
-       }
-    }
-    return j;
-}
-
-void MainWindow::Swap(Program& i_left, Program& i_right)
-{
-    Program _temp = std::move(i_left);
-    i_left = std::move(i_right);
-    i_right = std::move(_temp);
 }
 
 void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
@@ -139,11 +126,18 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         case PeriodOutput::HOUR:
         {
             ui->ui_tableStatistic->setRowCount(10);
-            CalculateStatistic(QUENTITY_CALCULATE_HOUR);
-            for (int i = m_calculateStatistic.end() - 1; i > m_calculateStatistic.end() - 11; i--)
+            if (CalculateStatistic(QUENTITY_CALCULATE_HOUR))
             {
-                ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
+                {
+                    ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                }
+
+                m_timeAddPeriodMinuteToAll->stop();
+                m_timeAddPeriodSecondToMinute->stop();
+
+                ui->ui_btnContinue->setVisible(true);
             }
 
             break;
@@ -151,11 +145,18 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         case PeriodOutput::DAY:
         {
             ui->ui_tableStatistic->setRowCount(10);
-            CalculateStatistic(QUENTITY_CALCULATE_DAY);
-            for (int i = 0; i < 10; i++)
+            if (CalculateStatistic(QUENTITY_CALCULATE_DAY))
             {
-                ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
+                {
+                    ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                }
+
+                m_timeAddPeriodMinuteToAll->stop();
+                m_timeAddPeriodSecondToMinute->stop();
+
+                ui->ui_btnContinue->setVisible(true);
             }
 
             break;
@@ -163,11 +164,18 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         case PeriodOutput::MONTH:
         {
             ui->ui_tableStatistic->setRowCount(10);
-            CalculateStatistic(QUENTITY_CALCULATE_MONTH);
-            for (int i = 0; i < 10; i++)
+            if (CalculateStatistic(QUENTITY_CALCULATE_MONTH))
             {
-                ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
+                {
+                    ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                }
+
+                m_timeAddPeriodMinuteToAll->stop();
+                m_timeAddPeriodSecondToMinute->stop();
+
+                ui->ui_btnContinue->setVisible(true);
             }
 
             break;
@@ -175,11 +183,18 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
         case PeriodOutput::YEAR:
         {
             ui->ui_tableStatistic->setRowCount(10);
-            CalculateStatistic(QUENTITY_CALCULATE_YEAR);
-            for (int i = 0; i < 10; i++)
+            if (CalculateStatistic(QUENTITY_CALCULATE_YEAR))
             {
-                ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
+                {
+                    ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                }
+
+                m_timeAddPeriodMinuteToAll->stop();
+                m_timeAddPeriodSecondToMinute->stop();
+
+                ui->ui_btnContinue->setVisible(true);
             }
 
             break;
@@ -256,9 +271,12 @@ void MainWindow::GetProcessList(HANDLE CONST hStdOut)
     do
     {
         QString _nameProcess  = QString::fromWCharArray(peProcessEntry.szExeFile);
-        if (std::find(m_periodSecond.begin(), m_periodSecond.end(), _nameProcess) == std::end(m_periodSecond))
+        if (_nameProcess[_nameProcess.size() - 4] == '.')
         {
-           m_periodSecond.push_back(_nameProcess);
+            if (std::find(m_periodSecond.begin(), m_periodSecond.end(), _nameProcess) == std::end(m_periodSecond))
+            {
+               m_periodSecond.push_back(_nameProcess);
+            }
         }
     }
     while(Process32Next(hSnapshot, &peProcessEntry));
@@ -292,4 +310,12 @@ void MainWindow::on_ui_btnMonth_clicked()
 void MainWindow::on_ui_btnYear_clicked()
 {
     emit signalOutputPeriod(PeriodOutput::YEAR);
+}
+
+void MainWindow::on_ui_btnContinue_clicked()
+{
+    ui->ui_btnContinue->setVisible(false);
+
+    m_timeAddPeriodMinuteToAll->start();
+    m_timeAddPeriodSecondToMinute->start();
 }

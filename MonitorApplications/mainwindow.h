@@ -44,11 +44,9 @@ public:
         }
     };
 
-    void CalculateStatistic(int i_quentityCalculateElement);
+    bool CalculateStatistic(int i_quentityCalculateElement);
 
     void QuickSort(int i_left, int i_right);
-    int Partition(int i_left, int i_right);
-    void Swap(Program& i_left, Program& i_right);
 
     enum PeriodOutput
     {
@@ -89,6 +87,8 @@ private slots:
     void on_ui_btnMonth_clicked();
 
     void on_ui_btnYear_clicked();
+
+    void on_ui_btnContinue_clicked();
 
 private:
     QVector<QVector<Program>> m_periodAll;

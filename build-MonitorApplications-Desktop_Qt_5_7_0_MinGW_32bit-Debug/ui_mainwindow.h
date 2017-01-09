@@ -16,6 +16,7 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
@@ -34,6 +35,7 @@ public:
     QRadioButton *ui_btnDay;
     QRadioButton *ui_btnMonth;
     QRadioButton *ui_btnYear;
+    QPushButton *ui_btnContinue;
     QTableWidget *ui_tableStatistic;
 
     void setupUi(QMainWindow *MainWindow)
@@ -76,6 +78,11 @@ public:
 
         verticalLayout_2->addWidget(groupBox);
 
+        ui_btnContinue = new QPushButton(centralWidget);
+        ui_btnContinue->setObjectName(QStringLiteral("ui_btnContinue"));
+
+        verticalLayout_2->addWidget(ui_btnContinue);
+
         ui_tableStatistic = new QTableWidget(centralWidget);
         if (ui_tableStatistic->columnCount() < 2)
             ui_tableStatistic->setColumnCount(2);
@@ -106,6 +113,7 @@ public:
         ui_btnDay->setText(QApplication::translate("MainWindow", "\320\224\320\265\320\275\321\214", 0));
         ui_btnMonth->setText(QApplication::translate("MainWindow", "\320\234\321\226\321\201\321\217\321\206\321\214", 0));
         ui_btnYear->setText(QApplication::translate("MainWindow", "\320\240\321\226\320\272", 0));
+        ui_btnContinue->setText(QApplication::translate("MainWindow", "\320\237\321\200\320\276\320\264\320\276\320\262\320\266\320\270\321\202\320\270", 0));
         QTableWidgetItem *___qtablewidgetitem = ui_tableStatistic->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "Name", 0));
         QTableWidgetItem *___qtablewidgetitem1 = ui_tableStatistic->horizontalHeaderItem(1);
