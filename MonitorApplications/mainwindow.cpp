@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("Monitor Applications");
+
     ui->ui_btnContinue->setVisible(false);
 
     m_timeAddPeriodMinuteToAll = new QTimer();
@@ -118,7 +120,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
             for (int i = 0; i < m_periodSecond.size(); i++)
             {
                 ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_periodSecond[i]));
-                ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(1));
+                ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(QString::number(1)));
             }
 
             break;
@@ -131,7 +133,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
                 for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
                 {
                     ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(QString::number(m_calculateStatistic[i].m_quentitySecond)));
                 }
 
                 m_timeAddPeriodMinuteToAll->stop();
@@ -150,7 +152,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
                 for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
                 {
                     ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(QString::number(m_calculateStatistic[i].m_quentitySecond)));
                 }
 
                 m_timeAddPeriodMinuteToAll->stop();
@@ -169,7 +171,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
                 for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
                 {
                     ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(QString::number(m_calculateStatistic[i].m_quentitySecond)));
                 }
 
                 m_timeAddPeriodMinuteToAll->stop();
@@ -188,7 +190,7 @@ void MainWindow::slotOutputPeriod(PeriodOutput i_typePeriod)
                 for (int i = m_calculateStatistic.size() - 1; i > m_calculateStatistic.size() - 11; i--)
                 {
                     ui->ui_tableStatistic->setItem(i, 0, new QTableWidgetItem(m_calculateStatistic[i].m_name));
-                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(m_calculateStatistic[i].m_quentitySecond));
+                    ui->ui_tableStatistic->setItem(i, 1, new QTableWidgetItem(QString::number(m_calculateStatistic[i].m_quentitySecond)));
                 }
 
                 m_timeAddPeriodMinuteToAll->stop();
